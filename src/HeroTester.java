@@ -59,6 +59,7 @@ public class HeroTester {
 
     @Test
     public void TestFightToTheDeathNTimes() {
+
         setUp();
 
         int numberOfFights = 100;
