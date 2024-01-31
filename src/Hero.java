@@ -159,7 +159,7 @@ public class Hero {
 
             System.out.println(opponent.name + " wins!");
 
-        } else if (opponent.hitPoints <= 0){
+        } else if(opponent.hitPoints <= 0){
 
             System.out.println(name + " wins!");
 
