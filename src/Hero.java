@@ -1,172 +1,124 @@
+import java.lang.Math;
 public class Hero {
+    private String name;
+    private int hitPoints;
 
-    // properties
-
-    public String name;
-    public int hitPoints;
-
-    // constructors
-
-    public Hero(String name){
-
+    public Hero(String name)
+    {
         this.name = name;
         hitPoints = 100;
-
     }
 
-    // methods
-
-    public String getName(){
-
+    public String getName()
+    {
         return name;
-
     }
 
-    public int getHitPoints(){
-
+    public int getHitPoints()
+    {
         return hitPoints;
-
     }
 
-    public String toString(){
-
-        return "Hero{name='" + name + "', hitPoints=" + hitPoints + "}";
-
+    public String toString()
+    {
+        return "Hero{name=\'" + name + "\', hitPoints=" + hitPoints + "}";
     }
 
-    public void attack(Hero opponent){
-
+    public void attack(Hero opponent)
+    {
         double num = Math.random();
-
-        if(num < 0.5){
-
-            opponent.hitPoints -= 10;
-
-        } else {
-
+        if (num < 0.5)
+        {
+            opponent.hitPoints -=10;
+        }
+        else
+        {
             hitPoints -= 10;
-
         }
-
     }
 
-    public void senzuBean(){
-
+    public void senzuBean()
+    {
         hitPoints = 100;
-
     }
 
-    private void fightUntilTheDeathHelper(Hero opponent){
-
-        while(hitPoints > 0 && opponent.hitPoints > 0){
-
+    private void fightUntilTheDeathHelper (Hero opponent)
+    {
+        while (hitPoints > 0 && opponent.hitPoints > 0)
+        {
             attack(opponent);
-
         }
-
     }
 
-    public String fightUntilTheDeath(Hero opponent){
-
+    public String fightUntilTheDeath (Hero opponent)
+    {
         senzuBean();
+        opponent.senzuBean();
         fightUntilTheDeathHelper(opponent);
-
-        return name + ": " + hitPoints + "  " + opponent.name + ": " + opponent.hitPoints;
-
+        return name + ": " + hitPoints + "\t" + opponent.getName() + ": " + opponent.getHitPoints();
     }
 
-    private int[] nFightsToTheDeathHelper(Hero opponent, int n){
+    private int[] nFightsToTheDeathHelper(Hero opponent, int n)
+    {
+        int hero = 0;
+        int opp = 0;
 
-        int[] a = new int[2];
-        int m = 0;
-        int q = 0;
-        int i = 0;
-
-        while(i < n){
-
-            fightUntilTheDeathHelper(opponent);
-
-            if(hitPoints <= 0){
-
-                senzuBean();
-                m++;
-                a[1] = m;
-
-            } else if (opponent.hitPoints <= 0){
-
-                opponent.senzuBean();
-                q++;
-                a[0] = q;
-
+        for (int i = 1; i <= n; i++)
+        {
+            fightUntilTheDeath(opponent);
+            if (hitPoints > 0)
+            {
+                hero++;
             }
-
-            i++;
-
+            else
+            {
+                opp++;
+            }
         }
-
-
-        return a;
-
+        return new int[]{hero, opp};
     }
 
-    public String nFightsToTheDeath(Hero opponent, int n){
-
-        int[] array = nFightsToTheDeathHelper(opponent, n);
-
-        String str = name + ": " + array[0] + " wins\n" + opponent.name + ": " + array[1] + " wins";
-
-        if(array[0] == array[1]){
-
-            str += "\nOMG! It was actually a draw!";
-
-        } else if (array[0] > array[1]){
-
-            str += "\n" + name + " wins!";
-
-        } else {
-
-            str += "\n" + opponent.name + " wins!";
-
+    public String nFightsToTheDeath(Hero opponent, int n)
+    {
+        String winner = "";
+        int result[] = nFightsToTheDeathHelper(opponent, n);
+        if (result[0] > result[1])
+        {
+            winner = name + " wins!";
+        }
+        else if (result[1] > result[0])
+        {
+            winner = opponent.getName() + " wins!";
+        }
+        else
+        {
+            winner = "OMG! It was actually a draw!";
         }
 
-        return str;
-
+        return name + ": " + result[0] + " wins" + "\n" + opponent.getName() + ": " + result[1] + " wins" + "\n" + winner;
     }
 
-    public void dramaticFightToTheDeath(Hero opponent){
 
+    public void dramaticFightToTheDeath(Hero opponent)
+    {
+        String winner = "";
         senzuBean();
-        fightUntilTheDeathHelper(opponent);
-
-        while(hitPoints > 0 && opponent.hitPoints > 0){
-
-            System.out.println(name + ": " + hitPoints + "  " + opponent.name + ": " + opponent.hitPoints);
-
-            try{
-
-                Thread.sleep(1000);
-
-            } catch (InterruptedException e){
-
-                e.printStackTrace();
-
+        opponent.senzuBean();
+        while (hitPoints > 0 && opponent.hitPoints > 0)
+        {
+            attack(opponent);
+            System.out.println(name + ": " + hitPoints + "\t" + opponent.getName() + ": " + opponent.getHitPoints());
+            if (hitPoints == 0)
+            {
+                winner = opponent.getName();
             }
-
-
+            else if (opponent.getHitPoints() == 0)
+            {
+                winner = name;
+            }
         }
-
-        if(hitPoints <= 0){
-
-            System.out.println(opponent.name + " wins!");
-
-        } else if(opponent.hitPoints <= 0){
-
-            System.out.println(name + " wins!");
-
-        }
-
+        System.out.println(winner + " wins!");
     }
-
 
 
 
