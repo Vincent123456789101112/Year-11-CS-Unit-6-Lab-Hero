@@ -90,7 +90,7 @@ public class HeroTester {
     }
 
     @Test
-    public void TestSenzuBean() {
+    public void TestSenzuBean() {  // Which teacher watched dragon ball.
         setUp();
         hero1.fightUntilTheDeath(hero2);
         hero1.fightUntilTheDeath(hero2);
